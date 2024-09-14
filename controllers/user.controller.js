@@ -11,14 +11,14 @@ let transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
     auth: {
-        user: process.env.NODEMAILER_USER,
-        pass: process.env.NODEMAILER_PASS
+        user: 'sameerrai350@gmail.com',
+        pass: 'holydeofedcezplt'
     }
 })
 
 
-const accountSid = process.env.TWILIO_SID; // Replace with your Twilio Account SID
-const authToken = process.env.TWILIO_TOKEN;   // Replace with your Twilio Auth Token
+const accountSid = 'ACef211ee5fc159b172021d9c247ec8fee'; // Replace with your Twilio Account SID
+const authToken = '3438276adb58c37b0e72dd099335ae4f';   // Replace with your Twilio Auth Token
 const client = twilio(accountSid, authToken);
 
 
