@@ -4,7 +4,7 @@ import app from "./app.js";
 import cors from 'cors';
 
 // Define the whitelist of allowed domains
-const whitelist = ['exp://192.168.21.248:8081']; // Add your allowed domains here
+const whitelist = ['http://192.168.21.248:8081']; // Add your allowed domains here
 
 // Configure CORS options to allow only whitelisted domains
 const corsOptions = {

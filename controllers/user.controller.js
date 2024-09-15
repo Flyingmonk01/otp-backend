@@ -17,8 +17,8 @@ let transporter = nodemailer.createTransport({
 })
 
 
-const accountSid = 'ACef211ee5fc159b172021d9c247ec8fee'; // Replace with your Twilio Account SID
-const authToken = '3438276adb58c37b0e72dd099335ae4f';   // Replace with your Twilio Auth Token
+const accountSid = 'ACef211ee5fc159b172021d9c247ec8fee';
+const authToken = 'd202e9e4de4504094f3d2d2fa88d0878';   // Replace with your Twilio Auth Token
 const client = twilio(accountSid, authToken);
 
 
@@ -28,33 +28,35 @@ export const sendOtp = asyncHandler(async (req, res) => {
 
     const phoneOtp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
     const emailOtp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
-
-    // Store OTP in MongoDB with a TTL
-    const newOtp = new OTP({
-        contact,
-        email,
-        phoneOtp,
-        emailOtp
-    });
-
-    await newOtp.save();
-
-    // console.log(`Sending SMS OTP to ${contact}: ${phoneOtp}`);
-    // console.log(`Sending Email OTP to ${email}: ${emailOtp}`);
-
+    
+    console.log(`Sending SMS OTP to ${contact}: ${phoneOtp}`);
+    console.log(`Sending Email OTP to ${email}: ${emailOtp}`);
+    
     try {
-
+        
         await client.messages.create({
             body: `Your OTP is ${phoneOtp}`,   // Message content
             from: '+12079458902',          // Your Twilio phone number (replace with your actual Twilio number)
             to: contact                   // User's phone number (in E.164 format, e.g., +14155552671)
         });
-
+        
         await transporter.sendMail({
             to: email,
             subject: 'Otp verification for test',
             html: `This is a otp you requested for verification. Otp: ${emailOtp}`
         })
+        console.log('send');
+        
+    
+        // Store OTP in MongoDB with a TTL
+        const newOtp = new OTP({
+            contact,
+            email,
+            phoneOtp,
+            emailOtp
+        });
+    
+        await newOtp.save();
 
         res.status(200).json({
             success: true,
